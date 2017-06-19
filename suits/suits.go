@@ -28,7 +28,10 @@ func (s Suits) Len() int {
 
 // Less Comparison
 func (s Suits) Less(i, j int) bool {
-    return s[i].name < s[j].name;
+    if s[i].rank == 0 {
+        return s[i].name < s[j].name;
+    }
+    return s[i].rank < s[j].rank;
 }
 
 // Swap Operation
