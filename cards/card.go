@@ -3,6 +3,7 @@ package cards
 import (
     "sort"
     "github.com/wpsmith/go-cards/suits"
+    "strings"
 )
 
 // CardElement
@@ -60,6 +61,11 @@ func (c *Card) RankValue() int {
     return rankValue + 1
 }
 
+// Returns the rank value for the card based on index in slice.
+func (c *Card) GetRank() string {
+    return c.rank
+}
+
 // Returns the rank value for the suit of the card.
 func (c *Card) SuitRankValue() int {
     suitsCol, _ := suits.GetSuitsCollection()
@@ -72,6 +78,21 @@ func (c *Card) GetSymbol() string {
         return c.getSymbolSymbolFirst()
     }
     return c.getSymbolRankFirst()
+}
+
+// Gets the card symbol dynamically
+func (c *Card) GetSymbolBy(stringType string) string {
+    switch strings.ToLower(stringType) {
+    case "html":
+        return c.ToHTMLHex()
+    case "hex":
+        return c.ToHTMLHex()
+    case "decimal":
+        return c.ToHTMLDecimal()
+    case "ansi":
+        return c.ToANSI()
+    }
+    return c.ToString()
 }
 
 func (c *Card) GetValue() int {
@@ -421,22 +442,4 @@ func NewCard(suit suits.Suit, rank string) (*Card, error) {
         Suit: suit,
         Rank: rank,
     })
-}
-
-type Cards []Card
-
-/** SORT INTERFACE METHODS **/
-// Length of Slice
-func (s Cards) Len() int {
-    return len(s)
-}
-
-// Less Comparison
-func (s Cards) Less(i, j int) bool {
-    return s[i].sortValue < s[j].sortValue;
-}
-
-// Swap Operation
-func (s Cards) Swap(i, j int) {
-    s[i], s[j] = s[j], s[i]
 }
