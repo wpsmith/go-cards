@@ -19,14 +19,36 @@ var (
         "K": 14, // King
         "A": 15, // Ace
         "F": 16, // Fool
-        "T": 17, // Trump
-        "R": 18, // Joker
+        "T1": 17, // Trump
+        "T2": 17, // Trump
+        "T3": 17, // Trump
+        "T4": 17, // Trump
+        "T5": 17, // Trump
+        "T6": 17, // Trump
+        "T7": 17, // Trump
+        "T8": 17, // Trump
+        "T9": 17, // Trump
+        "T10": 17, // Trump
+        "T11": 17, // Trump
+        "T12": 17, // Trump
+        "T13": 17, // Trump
+        "T14": 17, // Trump
+        "T15": 17, // Trump
+        "T16": 17, // Trump
+        "T17": 17, // Trump
+        "T18": 17, // Trump
+        "T19": 17, // Trump
+        "T20": 17, // Trump
+        "T21": 17, // Trump
+        "RJ": 18, // Joker
+        "WJ": 19, // Joker
+        "BJ": 20, // Joker
 
     }
     NUMERIC_CARDS []string = []string{"2", "3", "4", "5", "6", "7", "8", "9", "10"}
-    FACE_CARDS []string = []string{"J", "Q", "K", "C"}
+    FACE_CARDS []string = []string{"J", "C", "Q", "K"}
     ACE_CARDS []string = []string{"A"}
-    JOKER_CARDS []string = []string{"T", "F", "R"}
+    JOKER_CARDS []string = []string{"T1", "T2", "T3", "T4", "T5", "T6", "T7", "T8", "T9", "T10", "T11", "T12", "T13", "T14", "T15", "T16", "T17", "T18", "T19", "T20", "T21", "F", "RJ", "WJ", "BJ"}
 
     // Display Values
     // @see http://www.fileformat.info/info/unicode/block/playing_cards/images.htm
@@ -47,35 +69,33 @@ var (
         "Q♠":  "\U0001f0ad", "Q♥":  "\U0001f0bd", "Q♦":  "\U0001f0cd", "Q♣":  "\U0001f0dd",
         "K♠":  "\U0001f0ae", "K♥":  "\U0001f0be", "K♦":  "\U0001f0ce", "K♣":  "\U0001f0de",
 
-        // Other Cards
-        "back": "\U0001f0a0",
-
         // Other Cards, Jokers, Fool, and Trumps Cards
-        "redjoker":   "\U0001f0bf",
-        "blackjoker": "\U0001f0cf",
-        "whitejoker": "\U0001f0df",
-        "fool":       "\U0001f0e0",
-        "trump1":     "\U0001f0e1",
-        "trump2":     "\U0001f0e2",
-        "trump3":     "\U0001f0e3",
-        "trump4":     "\U0001f0e4",
-        "trump5":     "\U0001f0e5",
-        "trump6":     "\U0001f0e6",
-        "trump7":     "\U0001f0e1",
-        "trump8":     "\U0001f0e8",
-        "trump9":     "\U0001f0e9",
-        "trump10":    "\U0001f0ea",
-        "trump11":    "\U0001f0eb",
-        "trump12":    "\U0001f0ec",
-        "trump13":    "\U0001f0ed",
-        "trump14":    "\U0001f0ee",
-        "trump15":    "\U0001f0ef",
-        "trump16":    "\U0001f0f0",
-        "trump17":    "\U0001f0f1",
-        "trump18":    "\U0001f0f2",
-        "trump19":    "\U0001f0f3",
-        "trump20":    "\U0001f0f4",
-        "trump21":    "\U0001f0f5",
+        "back": "\U0001f0a0",
+        "RJR": "\U0001f0bf", // redjoker
+        "BJB": "\U0001f0cf", // blackjoker
+        "WJW": "\U0001f0df", // whitejoker
+        "FR": "\U0001f0e0",  // red fool
+        "T1": "\U0001f0e1",
+        "T2": "\U0001f0e2",
+        "T3": "\U0001f0e3",
+        "T4": "\U0001f0e4",
+        "T5": "\U0001f0e5",
+        "T6": "\U0001f0e6",
+        "T7": "\U0001f0e1",
+        "T8": "\U0001f0e8",
+        "T9": "\U0001f0e9",
+        "T10": "\U0001f0ea",
+        "T11": "\U0001f0eb",
+        "T12": "\U0001f0ec",
+        "T13": "\U0001f0ed",
+        "T14": "\U0001f0ee",
+        "T15": "\U0001f0ef",
+        "T16": "\U0001f0f0",
+        "T17": "\U0001f0f1",
+        "T18": "\U0001f0f2",
+        "T19": "\U0001f0f3",
+        "T20": "\U0001f0f4",
+        "T21": "\U0001f0f5",
     }
     cHEX map[string]string = map[string]string{
         // SPADES            HEARTS               DIAMONDS             CLUBS
@@ -95,32 +115,32 @@ var (
         "K♠":  "&#x1f0ae", "K♥":  "&#x1f0be", "K♦":  "&#x1f0ce", "K♣":  "&#x1f0de",
 
         // Other Cards, Jokers, Fool, and Trumps Cards
-        "back":       "&#x1f0a0",
-        "redjoker":   "&#x1f0bf",
-        "blackjoker": "&#x1f0cf",
-        "whitejoker": "&#x1f0df",
-        "fool":       "&#x1f0e0",
-        "trump1":     "&#x1f0e1",
-        "trump2":     "&#x1f0e2",
-        "trump3":     "&#x1f0e3",
-        "trump4":     "&#x1f0e4",
-        "trump5":     "&#x1f0e5",
-        "trump6":     "&#x1f0e6",
-        "trump7":     "&#x1f0e7",
-        "trump8":     "&#x1f0e8",
-        "trump9":     "&#x1f0e9",
-        "trump10":    "&#x1f0ea",
-        "trump11":    "&#x1f0eb",
-        "trump12":    "&#x1f0ec",
-        "trump13":    "&#x1f0ed",
-        "trump14":    "&#x1f0ee",
-        "trump15":    "&#x1f0ef",
-        "trump16":    "&#x1f0f0",
-        "trump17":    "&#x1f0f1",
-        "trump18":    "&#x1f0f2",
-        "trump19":    "&#x1f0f3",
-        "trump20":    "&#x1f0f4",
-        "trump21":    "&#x1f0f5",
+        "back": "&#x1f0a0",
+        "RJR": "&#x1f0bf",
+        "BJB": "&#x1f0cf",
+        "WJW": "&#x1f0df",
+        "FR": "&#x1f0e0",
+        "T1": "&#x1f0e1",
+        "T2": "&#x1f0e2",
+        "T3": "&#x1f0e3",
+        "T4": "&#x1f0e4",
+        "T5": "&#x1f0e5",
+        "T6": "&#x1f0e6",
+        "T7": "&#x1f0e7",
+        "T8": "&#x1f0e8",
+        "T9": "&#x1f0e9",
+        "T10": "&#x1f0ea",
+        "T11": "&#x1f0eb",
+        "T12": "&#x1f0ec",
+        "T13": "&#x1f0ed",
+        "T14": "&#x1f0ee",
+        "T15": "&#x1f0ef",
+        "T16": "&#x1f0f0",
+        "T17": "&#x1f0f1",
+        "T18": "&#x1f0f2",
+        "T19": "&#x1f0f3",
+        "T20": "&#x1f0f4",
+        "T21": "&#x1f0f5",
     }
     cDECIMAL map[string]string = map[string]string{
         // SPADES          HEARTS             DIAMONDS           CLUBS
@@ -141,31 +161,31 @@ var (
 
         // Other Cards, Jokers, Fool, and Trumps Cards
         "back":       "&#127136",
-        "redjoker":   "&#127167",
-        "blackjoker": "&#127183",
-        "whitejoker": "&#127199",
-        "fool":       "&#127200",
-        "trump1":     "&#127201",
-        "trump2":     "&#127202",
-        "trump3":     "&#127203",
-        "trump4":     "&#127204",
-        "trump5":     "&#127205",
-        "trump6":     "&#127206",
-        "trump7":     "&#127207",
-        "trump8":     "&#127208",
-        "trump9":     "&#127209",
-        "trump10":    "&#127210",
-        "trump11":    "&#127211",
-        "trump12":    "&#127212",
-        "trump13":    "&#127213",
-        "trump14":    "&#127214",
-        "trump15":    "&#127215",
-        "trump16":    "&#127216",
-        "trump17":    "&#127217",
-        "trump18":    "&#127218",
-        "trump19":    "&#127219",
-        "trump20":    "&#127220",
-        "trump21":    "&#127221",
+        "RJR":   "&#127167",
+        "BJB": "&#127183",
+        "WJW": "&#127199",
+        "FR":       "&#127200",
+        "T1": "&#127201",
+        "T2": "&#127202",
+        "T3": "&#127203",
+        "T4": "&#127204",
+        "T5": "&#127205",
+        "T6": "&#127206",
+        "T7": "&#127207",
+        "T8": "&#127208",
+        "T9": "&#127209",
+        "T10": "&#127210",
+        "T11": "&#127211",
+        "T12": "&#127212",
+        "T13": "&#127213",
+        "T14": "&#127214",
+        "T15": "&#127215",
+        "T16": "&#127216",
+        "T17": "&#127217",
+        "T18": "&#127218",
+        "T19": "&#127219",
+        "T20": "&#127220",
+        "T21": "&#127221",
     }
 )
 
