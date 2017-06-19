@@ -10,7 +10,6 @@ type Suit struct {
     html        string
     isTrumpSuit bool        // Trump?
     name        string      // Suit name
-    options     SuitOptions // Raw options
     rank        int         // Suit rank
     symbol      string      // Unicode symbol
 }
@@ -36,6 +35,11 @@ func (s *Suit) GetColor() string {
 // Sets rank to 1 if rank is not set
 func (s *Suit) GetRank() int {
     return s.rank
+}
+
+// Gets the Suit value from GetRank
+func (s *Suit) GetValue() int {
+    return s.GetRank()
 }
 
 // Gets whether trump suit from private property
@@ -87,14 +91,14 @@ func (s *Suit) ToANSI() string {
 // @see errors.go
 // @uses cDefaultColorScheme
 // @see constants.go
-func (s *Suit) setDefaultColor() error {
+func (s *Suit) setDefaultColor(opts SuitOptions) error {
     if s.color != "" {
         return errorSuitPropertyAlreadySet("color")
     }
 
     // Use options color setting
-    if s.options.Color != "" {
-        s.color = s.options.Color
+    if opts.Color != "" {
+        s.color = opts.Color
     } else {
         s.color = cDefaultColorScheme[s.name]
     }
@@ -107,14 +111,14 @@ func (s *Suit) setDefaultColor() error {
 // @see errors.go
 // @uses cDefaultSuitsSymbols
 // @see constants.go
-func (s *Suit) setSymbol() error {
+func (s *Suit) setSymbol(opts SuitOptions) error {
     if s.symbol != "" {
         return errorSuitPropertyAlreadySet("symbol")
     }
 
     // Use options symbol setting
-    if s.options.Symbol != "" {
-        s.symbol = s.options.Symbol
+    if opts.Symbol != "" {
+        s.symbol = opts.Symbol
     } else {
         s.symbol = cDefaultSuitsSymbols[s.name]
     }
@@ -127,14 +131,14 @@ func (s *Suit) setSymbol() error {
 // @see errors.go
 // @uses cHEX
 // @see constants.go
-func (s *Suit) setGlyph() error {
+func (s *Suit) setGlyph(opts SuitOptions) error {
     if s.glyph != "" {
         return errorSuitPropertyAlreadySet("glyph")
     }
 
     // Use options symbol setting
-    if s.options.Glyph != "" {
-        s.glyph = s.options.Glyph
+    if opts.Glyph != "" {
+        s.glyph = opts.Glyph
     } else {
         s.glyph = cGLYPH[s.name]
     }
@@ -147,14 +151,14 @@ func (s *Suit) setGlyph() error {
 // @see errors.go
 // @uses cHEX
 // @see constants.go
-func (s *Suit) setHTMLHex() error {
+func (s *Suit) setHTMLHex(opts SuitOptions) error {
     if s.htmlHex != "" {
         return errorSuitPropertyAlreadySet("htmlHex")
     }
 
     // Use options symbol setting
-    if s.options.HTMLHex != "" {
-        s.htmlHex = s.options.HTMLHex
+    if opts.HTMLHex != "" {
+        s.htmlHex = opts.HTMLHex
     } else {
         s.htmlHex = cHEX[s.name]
     }
@@ -167,14 +171,14 @@ func (s *Suit) setHTMLHex() error {
 // @see errors.go
 // @uses cHTML
 // @see constants.go
-func (s *Suit) setHTMLDecimal() error {
+func (s *Suit) setHTMLDecimal(opts SuitOptions) error {
     if s.htmlDecimal != "" {
         return errorSuitPropertyAlreadySet("htmlDecimal")
     }
 
     // Use options symbol setting
-    if s.options.HTMLDecimal != "" {
-        s.htmlDecimal = s.options.HTMLDecimal
+    if opts.HTMLDecimal != "" {
+        s.htmlDecimal = opts.HTMLDecimal
     } else {
         s.htmlDecimal = cDECIMAL[s.name]
     }
@@ -187,14 +191,14 @@ func (s *Suit) setHTMLDecimal() error {
 // @see errors.go
 // @uses cHTML
 // @see constants.go
-func (s *Suit) setHTML() error {
+func (s *Suit) setHTML(opts SuitOptions) error {
     if s.html != "" {
         return errorSuitPropertyAlreadySet("html")
     }
 
     // Use options symbol setting
-    if s.options.HTML != "" {
-        s.html = s.options.HTML
+    if opts.HTML != "" {
+        s.html = opts.HTML
     } else {
         s.html = cHTML[s.name]
 
@@ -213,14 +217,14 @@ func (s *Suit) setHTML() error {
 // Sets the suit ANSI
 // @uses errorSuitPropertyAlreadySet Returns error for property being set
 // @see errors.go
-func (s *Suit) setANSI() error {
+func (s *Suit) setANSI(opts SuitOptions) error {
     if s.ansi != "" {
         return errorSuitPropertyAlreadySet("ansi")
     }
 
     // Use options symbol setting
-    if s.options.ANSI != "" {
-        s.ansi = s.options.ANSI
+    if opts.ANSI != "" {
+        s.ansi = opts.ANSI
     } else {
         var output string
         switch s.color {
@@ -251,14 +255,14 @@ func (s *Suit) setANSI() error {
 // Sets the suit rank
 // @uses errorSuitPropertyAlreadySet Returns error for property being set
 // @see errors.go
-func (s *Suit) setRanking() error {
+func (s *Suit) setRanking(opts SuitOptions) error {
     if s.rank != 0 {
         return errorSuitPropertyAlreadySet("rank")
     }
 
-    if s.options.Rank != 0 {
-        s.rank = s.options.Rank
-    } else if s.options.Rank == 0 {
+    if opts.Rank != 0 {
+        s.rank = opts.Rank
+    } else if opts.Rank == 0 {
         s.rank = 1
     }
 
@@ -268,10 +272,10 @@ func (s *Suit) setRanking() error {
 // Sets the suit isTrumpSuit
 // @uses DEFAULT_TRUMPSUIT
 // @see constants.go
-func (s *Suit) setTrumpSuit() error {
+func (s *Suit) setTrumpSuit(opts SuitOptions) error {
     s.isTrumpSuit = DEFAULT_TRUMPSUIT
-    if DEFAULT_TRUMPSUIT != s.options.IsTrumpSuit {
-        s.isTrumpSuit = s.options.IsTrumpSuit
+    if DEFAULT_TRUMPSUIT != opts.IsTrumpSuit {
+        s.isTrumpSuit = opts.IsTrumpSuit
     }
 
     return nil
@@ -299,22 +303,19 @@ func newSuit(opts SuitOptions) (*Suit, error) {
 
     s := new(Suit)
 
-    // Set Options
-    s.options = opts
-
     // Set Name
     s.name = opts.Name
 
     // Set Properties
-    s.setSymbol()
-    s.setGlyph()
-    s.setDefaultColor()
-    s.setHTMLHex()
-    s.setHTMLDecimal()
-    s.setHTML()
-    s.setANSI()
-    s.setRanking()
-    s.setTrumpSuit()
+    s.setSymbol(opts)
+    s.setGlyph(opts)
+    s.setDefaultColor(opts)
+    s.setHTMLHex(opts)
+    s.setHTMLDecimal(opts)
+    s.setHTML(opts)
+    s.setANSI(opts)
+    s.setRanking(opts)
+    s.setTrumpSuit(opts)
 
     return s, nil
 }

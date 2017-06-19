@@ -14,7 +14,7 @@ var (
 type GlobalSuitsOptions struct {
     Colors             map[string]string
     CreateDefaultSuits bool
-    Suits              []SuitOptions
+    SuitsOptions       []SuitOptions
     TrumpSuit          string
 }
 
@@ -36,11 +36,21 @@ func (s Suits) Swap(i, j int) {
     s[i], s[j] = s[j], s[i]
 }
 
+// Get a particular suit
+func (s Suits) GetSuit(name string) *Suit {
+    for _, suit := range s {
+        if suit.GetName() == name || suit.name == name {
+            return &suit
+        }
+    }
+
+    return &Suit{}
+}
+
 // Suits Collection Object
 type suitsCollection struct {
     colors      map[string]string
     initialized bool
-    options     GlobalSuitsOptions
     Suits       Suits
     rankings    []string
 }
@@ -56,7 +66,7 @@ func (s *suitsCollection) Search(x string) int {
     for _, suit := range s.Suits {
         slice = append(slice, suit.name)
     }
-    return sliceIndex(len(s.Suits), sliceIndexFn(slice, x))
+    return SliceIndex(len(s.Suits), SliceIndexFn(slice, x))
     //suits := s.Suits
     //return sort.Search(len(suits), func(i int) bool {
     //    return suits[i].GetName() >= x
@@ -68,9 +78,13 @@ func (s *suitsCollection) GetColors() map[string]string {
     return s.colors
 }
 
+func (s *suitsCollection) GetSuit(name string) *Suit {
+    return s.Suits.GetSuit(name)
+}
+
 /** PRIVATE METHODS **/
 // Creates the default suits: Clubs, Diamonds, Hearts, Spades
-func (s *suitsCollection) createDefaultSuits() error {
+func (s *suitsCollection) createDefaultSuits(opts GlobalSuitsOptions) error {
     if initialized {
         return eSUITS_ALREADY_INITIALIZED
     }
@@ -81,7 +95,7 @@ func (s *suitsCollection) createDefaultSuits() error {
         trumpSuit = DEFAULT_TRUMPSUIT
 
         // Maybe set trump suit
-        if s.options.TrumpSuit != "" && strings.ToLower(s.options.TrumpSuit) == strings.ToLower(name) {
+        if opts.TrumpSuit != "" && strings.ToLower(opts.TrumpSuit) == strings.ToLower(name) {
             trumpSuit = true
         }
 
@@ -118,14 +132,14 @@ func (s *suitsCollection) createDefaultSuits() error {
 // Creates a Suits Collection
 func newSuitsCollection(opts GlobalSuitsOptions) *suitsCollection {
     s := new(suitsCollection)
-    s.options = opts
+    //s.options = opts
 
     if len(opts.Colors) > 0 {
         s.colors = opts.Colors
     }
 
     if opts.CreateDefaultSuits {
-        err := s.createDefaultSuits()
+        err := s.createDefaultSuits(opts)
         if err != nil {
             panic("Default Suits Error! " + err.Error())
         }
@@ -141,14 +155,14 @@ func CreateSuits(opts GlobalSuitsOptions) (*suitsCollection, error) {
     }
 
     // Ensure Default Suits get created if no custom suits
-    if len(opts.Suits) == 0 && !opts.CreateDefaultSuits {
+    if len(opts.SuitsOptions) == 0 && !opts.CreateDefaultSuits {
         opts.CreateDefaultSuits = true
     }
     suitsCol = newSuitsCollection(opts)
 
     // Custom Suits
-    if len(opts.Suits) > 0 {
-        for _, suitOpts := range opts.Suits {
+    if len(opts.SuitsOptions) > 0 {
+        for _, suitOpts := range opts.SuitsOptions {
             if suitOpts.Color == "" && len(suitsCol.colors) > 0 {
                 suitOpts.Color = suitsCol.colors[suitOpts.Name]
             }
@@ -188,7 +202,7 @@ func GetSuitsCollection() (*suitsCollection, error) {
 }
 
 // Returns the Suits from the Suits Collection
-func GetSuits() ([]Suit, error) {
+func GetSuits() (Suits, error) {
     if len(suitsCol.Suits) == 0 {
         return nil, ErrorSuitsNotCreated()
     }

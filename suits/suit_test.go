@@ -2,6 +2,7 @@ package suits
 
 import (
     "testing"
+    "github.com/wpsmith/go-cards/cards-testing"
 )
 
 /** Test NewSuit **/
@@ -14,20 +15,16 @@ var (
     // Suit Options
     newSuitClubsSuitOptions SuitOptions = SuitOptions{
         Name: CLUBS,
-        //Symbol: cDefaultSuitsSymbols[CLUBS],
     }
     newSuitDiamondsSuitOptions SuitOptions = SuitOptions{
         Name: DIAMONDS,
-        //Symbol: cDefaultSuitsSymbols[DIAMONDS],
     }
     newSuitHeartsSuitOptions SuitOptions = SuitOptions{
         Name: HEARTS,
-        //Symbol: cDefaultSuitsSymbols[HEARTS],
     }
     newSuitSpadesSuitOptions SuitOptions = SuitOptions{
         Color: GREEN,
         Name: SPADES,
-        //Symbol: cDefaultSuitsSymbols[SPADES],
         IsTrumpSuit: true,
     }
     newSuitEaglesSuitOptions SuitOptions = SuitOptions{
@@ -56,7 +53,6 @@ var (
         html: cHTML[CLUBS],
         isTrumpSuit: false,
         name: CLUBS,
-        options: newSuitClubsSuitOptions,
         symbol: cDefaultSuitsSymbols[CLUBS],
     }
     diamondsSuit *Suit = &Suit{
@@ -68,7 +64,6 @@ var (
         html: cHTML[DIAMONDS],
         isTrumpSuit: false,
         name: DIAMONDS,
-        options: newSuitDiamondsSuitOptions,
         symbol: cDefaultSuitsSymbols[DIAMONDS],
     }
     heartsSuit *Suit = &Suit{
@@ -80,7 +75,6 @@ var (
         html: cHTML[HEARTS],
         isTrumpSuit: false,
         name: HEARTS,
-        options: newSuitHeartsSuitOptions,
         symbol: cDefaultSuitsSymbols[HEARTS],
     }
     spadesSuit *Suit = &Suit{
@@ -92,7 +86,6 @@ var (
         html: cHTML[SPADES],
         isTrumpSuit: true,
         name: SPADES,
-        options: newSuitSpadesSuitOptions,
         symbol: cDefaultSuitsSymbols[SPADES],
     }
     eaglesSuit *Suit = &Suit{
@@ -104,7 +97,6 @@ var (
         html: "&#x1f985",
         isTrumpSuit: false,
         name: "Eagles",
-        options: newSuitEaglesSuitOptions,
         symbol: "?",
     }
 
@@ -137,18 +129,13 @@ func TestNewSuitError(t *testing.T) {
 func doNewSuitTestError(t *testing.T, testName string, valType string, expectedVal interface{}, val interface{}) {
     v, ok := val.(string)
     if ok {
-        val = getEmptyStringMaybe(v)
+        val = cards_testing.GetEmptyStringMaybe(v)
     }
     t.Errorf("For %s, expected " + valType + ", but got " + valType + " instead.", testName, expectedVal, val)
 }
 
 // Test helper function
 func doSuitTestResults(t *testing.T, pairSuit *Suit, v *Suit, opts SuitOptions, pair testNewSuit) {
-    // @todo Check to see if this errors!
-    //if !reflect.DeepEqual(v.options, opts) {
-    //    t.Errorf("For %s, expected %+v, but got %+v instead.", opts.Name + " Options", opts, pairSuit, v)
-    //    //t.Errorf("For %s and %+v, expected %+v, but got %+v instead.", opts.Name + " Options", opts, suit, v)
-    //}
 
     // Check Public Methods
     if pairSuit.name != v.GetName() {

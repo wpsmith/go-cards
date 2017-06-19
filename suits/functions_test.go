@@ -1,9 +1,12 @@
 package suits
 
-import "testing"
+import (
+    "testing"
+    "github.com/wpsmith/go-cards/cards-testing"
+)
 
-/** Test sliceIndex **/
-type testsliceIndexStr struct {
+/** Test SliceIndex **/
+type testSliceIndexStr struct {
     val   string
     slice []string
     index int
@@ -12,7 +15,7 @@ type testsliceIndexStr struct {
 var (
     strSlice1 []string = []string{"C", "B", "K", "A"}
     strSlice2 []string = []string{"Z", "O", "W", "X"}
-    testssliceIndexStr = []testsliceIndexStr{
+    testsSliceIndexStr = []testSliceIndexStr{
         {"C", strSlice1, 0},
         {"B", strSlice1, 1},
         {"K", strSlice1, 2},
@@ -29,19 +32,19 @@ var (
     }
 )
 
-func TestsliceIndexStr(t *testing.T) {
-    for _, pair := range testssliceIndexStr {
-        v := sliceIndex(len(pair.slice), func(i int) bool {
+func TestSliceIndexStr(t *testing.T) {
+    for _, pair := range testsSliceIndexStr {
+        v := SliceIndex(len(pair.slice), func(i int) bool {
             return pair.slice[i] == pair.val
         })
         if v != pair.index {
-            pair.val = getEmptyStringMaybe(pair.val)
+            pair.val = cards_testing.GetEmptyStringMaybe(pair.val)
             t.Errorf("For %s and %+v, expected %d, but got %d instead.", pair.val, pair.slice, pair.index, v)
         }
     }
 }
 
-type testsliceIndexInt struct {
+type testSliceIndexInt struct {
     val   int
     slice []int
     index int
@@ -50,7 +53,7 @@ type testsliceIndexInt struct {
 var (
     intSlice1 []int = []int{1, 3, 5, 7}
     intSlice2 []int = []int{2, 4, 6, 8}
-    testssliceIndexInt = []testsliceIndexInt{
+    testsSliceIndexInt = []testSliceIndexInt{
         {1, intSlice1, 0},
         {3, intSlice1, 1},
         {5, intSlice1, 2},
@@ -67,9 +70,9 @@ var (
     }
 )
 
-func TestsliceIndexInt(t *testing.T) {
-    for _, pair := range testssliceIndexInt {
-        v := sliceIndex(len(pair.slice), func(i int) bool {
+func TestSliceIndexInt(t *testing.T) {
+    for _, pair := range testsSliceIndexInt {
+        v := SliceIndex(len(pair.slice), func(i int) bool {
             return pair.slice[i] == pair.val
         })
         if v != pair.index {
@@ -78,12 +81,12 @@ func TestsliceIndexInt(t *testing.T) {
     }
 }
 
-/** Test sliceIndexFn **/
-func TestsliceIndexFn(t *testing.T) {
-    for _, pair := range testssliceIndexStr {
-        v := sliceIndex(len(pair.slice), sliceIndexFn(pair.slice, pair.val))
+/** Test SliceIndexFn **/
+func TestSliceIndexFn(t *testing.T) {
+    for _, pair := range testsSliceIndexStr {
+        v := SliceIndex(len(pair.slice), SliceIndexFn(pair.slice, pair.val))
         if v != pair.index {
-            pair.val = getEmptyStringMaybe(pair.val)
+            pair.val = cards_testing.GetEmptyStringMaybe(pair.val)
             t.Errorf("For %s and %+v, expected %d, but got %d instead.", pair.val, pair.slice, pair.index, v)
         }
     }

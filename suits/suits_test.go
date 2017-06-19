@@ -46,18 +46,11 @@ func TestSuitsInitializedCreateSuitsFail(t *testing.T) {
 
 func doSuitsCreateSuits(t *testing.T, testName string, collection *suitsCollection, resultCollection *suitsCollection) {
     if !reflect.DeepEqual(collection.Suits, resultCollection.Suits) {
-        //for idx, suit := range collection.Suits {
-        //    fmt.Printf("\n%v: %v ? %v\n", suit.GetName(), suit.GetColor(), resultCollection.Suits[idx].GetColor())
-        //}
         t.Errorf("For CreateSuits (%s: Suits), expected\n%+v\nbut got\n%+v\ninstead.", testName, resultCollection.Suits, suitsCol.Suits)
     }
 
     if !reflect.DeepEqual(collection.colors, resultCollection.colors) {
         t.Errorf("For CreateSuits (%s: Colors), expected\n%+v\nbut got\n%+v\ninstead.", testName, resultCollection.colors, suitsCol.colors)
-    }
-
-    if !reflect.DeepEqual(collection.options, resultCollection.options) {
-        t.Errorf("For CreateSuits (%s: Options), expected\n%+v\nbut got\n%+v\ninstead.", testName, resultCollection.options, suitsCol.options)
     }
 
     if !reflect.DeepEqual(collection.rankings, resultCollection.rankings) {
@@ -68,32 +61,11 @@ func doSuitsCreateSuits(t *testing.T, testName string, collection *suitsCollecti
 // Test CreateSuits: Create Default Suits
 func TestSuitsCreateSuitsDefaultSuits(t *testing.T) {
     var (
-        testSuitOptions = []SuitOptions{
-            {
-                Name: CLUBS,
-                Symbol: cDefaultSuitsSymbols[CLUBS],
-            },
-            {
-                Name: DIAMONDS,
-                Symbol: cDefaultSuitsSymbols[DIAMONDS],
-            },
-            {
-                Name: HEARTS,
-                Symbol: cDefaultSuitsSymbols[HEARTS],
-            },
-            {
-                Name: SPADES,
-                Symbol: cDefaultSuitsSymbols[SPADES],
-            },
-        }
         testOpts = GlobalSuitsOptions{}
-        testModifiedOpts = GlobalSuitsOptions{
-            CreateDefaultSuits: true,
-        }
 
         resultCollection = &suitsCollection{
             initialized: true,
-            options: testModifiedOpts,
+            //options: testModifiedOpts,
             Suits: []Suit{
                 {
                     ansi: ANSI_BLACK + cDefaultSuitsSymbols[CLUBS] + ANSI_RESET,
@@ -104,7 +76,6 @@ func TestSuitsCreateSuitsDefaultSuits(t *testing.T) {
                     html: cHTML[CLUBS],
                     isTrumpSuit: false,
                     name: CLUBS,
-                    options: testSuitOptions[0],
                     symbol: cDefaultSuitsSymbols[CLUBS],
                     rank: 1,
                 },
@@ -117,7 +88,6 @@ func TestSuitsCreateSuitsDefaultSuits(t *testing.T) {
                     html: cHTML[DIAMONDS],
                     isTrumpSuit: false,
                     name: DIAMONDS,
-                    options: testSuitOptions[1],
                     symbol: cDefaultSuitsSymbols[DIAMONDS],
                     rank: 1,
                 },
@@ -130,7 +100,6 @@ func TestSuitsCreateSuitsDefaultSuits(t *testing.T) {
                     html: cHTML[HEARTS],
                     isTrumpSuit: false,
                     name: HEARTS,
-                    options: testSuitOptions[2],
                     symbol: cDefaultSuitsSymbols[HEARTS],
                     rank: 1,
                 },
@@ -143,7 +112,6 @@ func TestSuitsCreateSuitsDefaultSuits(t *testing.T) {
                     html: cHTML[SPADES],
                     isTrumpSuit: false,
                     name: SPADES,
-                    options: testSuitOptions[3],
                     symbol: cDefaultSuitsSymbols[SPADES],
                     rank: 1,
                 },
@@ -160,36 +128,12 @@ func TestSuitsCreateSuitsDefaultSuits(t *testing.T) {
 // Test CreateSuits: Create Default Suits
 func TestSuitsCreateSuitsDefaultSuitsWithTrumpSuit(t *testing.T) {
     var (
-        testResultSuitOptions = []SuitOptions{
-            {
-                Name: CLUBS,
-                Symbol: cDefaultSuitsSymbols[CLUBS],
-            },
-            {
-                Name: DIAMONDS,
-                Symbol: cDefaultSuitsSymbols[DIAMONDS],
-            },
-            {
-                Name: HEARTS,
-                Symbol: cDefaultSuitsSymbols[HEARTS],
-                IsTrumpSuit: true,
-            },
-            {
-                Name: SPADES,
-                Symbol: cDefaultSuitsSymbols[SPADES],
-            },
-        }
         testOpts = GlobalSuitsOptions{
-            TrumpSuit: HEARTS,
-        }
-        testModifiedOpts = GlobalSuitsOptions{
-            CreateDefaultSuits: true,
             TrumpSuit: HEARTS,
         }
 
         resultCollection = &suitsCollection{
             initialized: true,
-            options: testModifiedOpts,
             Suits: []Suit{
                 {
                     ansi: ANSI_BLACK + cDefaultSuitsSymbols[CLUBS] + ANSI_RESET,
@@ -200,7 +144,6 @@ func TestSuitsCreateSuitsDefaultSuitsWithTrumpSuit(t *testing.T) {
                     html: cHTML[CLUBS],
                     isTrumpSuit: false,
                     name: CLUBS,
-                    options: testResultSuitOptions[0],
                     symbol: cDefaultSuitsSymbols[CLUBS],
                     rank: 1,
                 },
@@ -213,7 +156,6 @@ func TestSuitsCreateSuitsDefaultSuitsWithTrumpSuit(t *testing.T) {
                     html: cHTML[DIAMONDS],
                     isTrumpSuit: false,
                     name: DIAMONDS,
-                    options: testResultSuitOptions[1],
                     symbol: cDefaultSuitsSymbols[DIAMONDS],
                     rank: 1,
                 },
@@ -226,7 +168,6 @@ func TestSuitsCreateSuitsDefaultSuitsWithTrumpSuit(t *testing.T) {
                     html: cHTML[HEARTS],
                     isTrumpSuit: true,
                     name: HEARTS,
-                    options: testResultSuitOptions[2],
                     symbol: cDefaultSuitsSymbols[HEARTS],
                     rank: 1,
                 },
@@ -239,7 +180,6 @@ func TestSuitsCreateSuitsDefaultSuitsWithTrumpSuit(t *testing.T) {
                     html: cHTML[SPADES],
                     isTrumpSuit: false,
                     name: SPADES,
-                    options: testResultSuitOptions[3],
                     symbol: cDefaultSuitsSymbols[SPADES],
                     rank: 1,
                 },
@@ -276,17 +216,11 @@ func TestSuitsCreateSuitsDefaultSuitsWithCustomColorsInSuits(t *testing.T) {
         }
 
         testOpts = GlobalSuitsOptions{
-            Suits: testSuitOptions,
-        }
-
-        testModifiedOpts = GlobalSuitsOptions{
-            //CreateDefaultSuits: true,
-            Suits: testSuitOptions,
+            SuitsOptions: testSuitOptions,
         }
 
         resultCollection = &suitsCollection{
             initialized: true,
-            options: testModifiedOpts,
             Suits: []Suit{
                 {
                     ansi: ANSI_BLACK + cDefaultSuitsSymbols[CLUBS] + ANSI_RESET,
@@ -297,7 +231,6 @@ func TestSuitsCreateSuitsDefaultSuitsWithCustomColorsInSuits(t *testing.T) {
                     html: cHTML[CLUBS],
                     isTrumpSuit: false,
                     name: CLUBS,
-                    options: testSuitOptions[0],
                     symbol: cDefaultSuitsSymbols[CLUBS],
                     rank: 1,
                 },
@@ -310,7 +243,6 @@ func TestSuitsCreateSuitsDefaultSuitsWithCustomColorsInSuits(t *testing.T) {
                     html: cHTML[DIAMONDS],
                     isTrumpSuit: false,
                     name: DIAMONDS,
-                    options: testSuitOptions[1],
                     symbol: cDefaultSuitsSymbols[DIAMONDS],
                     rank: 1,
                 },
@@ -323,7 +255,6 @@ func TestSuitsCreateSuitsDefaultSuitsWithCustomColorsInSuits(t *testing.T) {
                     html: cHTML[HEARTS],
                     isTrumpSuit: false,
                     name: HEARTS,
-                    options: testSuitOptions[2],
                     symbol: cDefaultSuitsSymbols[HEARTS],
                     rank: 1,
                 },
@@ -336,7 +267,6 @@ func TestSuitsCreateSuitsDefaultSuitsWithCustomColorsInSuits(t *testing.T) {
                     html: cHTML[SPADES],
                     isTrumpSuit: false,
                     name: SPADES,
-                    options: testSuitOptions[3],
                     symbol: cDefaultSuitsSymbols[SPADES],
                     rank: 1,
                 },
@@ -377,34 +307,13 @@ func TestSuitsCreateSuitsDefaultSuitsWithCustomColors(t *testing.T) {
         testOpts = GlobalSuitsOptions{
             Colors: testColors,
             CreateDefaultSuits: false,
-            Suits: testSuitOptions,
+            SuitsOptions: testSuitOptions,
             TrumpSuit: "",
         }
 
-        // CreateSuits modifies SuitOptions to add Color if GlobalSuitsOptions.Colors exists
-        testModifiedSuitOptions = []SuitOptions{
-            {
-                Color: BLACK,
-                Name: CLUBS,
-            },
-            {
-                Color: YELLOW,
-                Name: DIAMONDS,
-            },
-            {
-                Color: RED,
-                Name: HEARTS,
-            },
-            {
-                Color: GREEN,
-                Name: SPADES,
-                IsTrumpSuit: true,
-            },
-        }
         resultCollection = &suitsCollection{
             colors: testColors,
             initialized: true,
-            options: testOpts,
             Suits: []Suit{
                 {
                     ansi: ANSI_BLACK + cDefaultSuitsSymbols[CLUBS] + ANSI_RESET,
@@ -415,7 +324,6 @@ func TestSuitsCreateSuitsDefaultSuitsWithCustomColors(t *testing.T) {
                     html: cHTML[CLUBS],
                     isTrumpSuit: false,
                     name: CLUBS,
-                    options: testModifiedSuitOptions[0],
                     symbol: cDefaultSuitsSymbols[CLUBS],
                     rank: 1,
                 },
@@ -428,7 +336,6 @@ func TestSuitsCreateSuitsDefaultSuitsWithCustomColors(t *testing.T) {
                     html: cHTML[DIAMONDS],
                     isTrumpSuit: false,
                     name: DIAMONDS,
-                    options: testModifiedSuitOptions[1],
                     symbol: cDefaultSuitsSymbols[DIAMONDS],
                     rank: 1,
                 },
@@ -441,7 +348,6 @@ func TestSuitsCreateSuitsDefaultSuitsWithCustomColors(t *testing.T) {
                     html: cHTML[HEARTS],
                     isTrumpSuit: false,
                     name: HEARTS,
-                    options: testModifiedSuitOptions[2],
                     symbol: cDefaultSuitsSymbols[HEARTS],
                     rank: 1,
                 },
@@ -454,7 +360,6 @@ func TestSuitsCreateSuitsDefaultSuitsWithCustomColors(t *testing.T) {
                     html: cHTML[SPADES],
                     isTrumpSuit: true,
                     name: SPADES,
-                    options: testModifiedSuitOptions[3],
                     symbol: cDefaultSuitsSymbols[SPADES],
                     rank: 1,
                 },
