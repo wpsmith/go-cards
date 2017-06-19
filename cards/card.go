@@ -1,7 +1,6 @@
 package cards
 
 import (
-    "sort"
     "github.com/wpsmith/go-cards/suits"
     "strings"
 )
@@ -47,7 +46,12 @@ type Card struct {
 // present (it could be len(a)).
 // The slice must be sorted in ascending order.
 func (c *Card) Search(x string) int {
-    return suits.SliceIndex(len(cDEFAULT_RANKS), suits.SliceIndexFn(cDEFAULT_RANKS, x))
+    return c.SearchBy(cDEFAULT_RANKS, x)
+}
+
+// Search by
+func (c *Card) SearchBy(dict []string, x string) int {
+    return suits.SliceIndex(len(dict), suits.SliceIndexFn(dict, x))
 }
 
 // Returns the rank value for the card based on index in slice.
@@ -80,7 +84,7 @@ func (c *Card) GetSymbol() string {
     return c.getSymbolRankFirst()
 }
 
-// Gets the card symbol dynamically
+// Gets the card symbol dynamically by type
 func (c *Card) GetSymbolBy(stringType string) string {
     switch strings.ToLower(stringType) {
     case "html":
@@ -95,6 +99,7 @@ func (c *Card) GetSymbolBy(stringType string) string {
     return c.ToString()
 }
 
+// Gets the card value
 func (c *Card) GetValue() int {
     return c.value;
 }
@@ -318,7 +323,8 @@ func (c *Card) setValue(opts CardOptions) error {
     if c.sortValue == 0 {
         c.setSortValue()
     }
-    c.value = c.sortValue
+
+    c.value = cDEFAULT_CARD_VALUES[c.rank]
     if opts.Value != 0 {
         c.value = opts.Value
     }
@@ -362,6 +368,11 @@ func (c *Card) setANSI(opts CardOptions) error {
     }
 
     return nil
+}
+
+// Determines whether the card belongs to a specific set of card ranks
+func (c *Card) isCard( cards []string, rank string) bool {
+    return (len(cards) != c.SearchBy(cards, rank))
 }
 
 // Suit Options object
@@ -409,32 +420,24 @@ func NewCustomCard(opts CardOptions) (*Card, error) {
 
     // Set Card Type
     // Numeric Cards
-    //if len(NUMERIC_CARDS) != sort.SearchStrings(NUMERIC_CARDS, opts.Rank) {
-    if isCard(NUMERIC_CARDS, opts.Rank) {
+    if card.isCard(NUMERIC_CARDS, opts.Rank) {
         card.cardType = NUMBER_CARD
 
         // Face Cards
-    //} else if len(FACE_CARDS) != sort.SearchStrings(FACE_CARDS, opts.Rank) {
-    } else if isCard(FACE_CARDS, opts.Rank) {
+    } else if card.isCard(FACE_CARDS, opts.Rank) {
         card.cardType = FACE_CARD
 
         // Ace Card
-    //} else if len(ACE_CARDS) != sort.SearchStrings(ACE_CARDS, opts.Rank) {
-    } else if isCard(ACE_CARDS, opts.Rank) {
+    } else if card.isCard(ACE_CARDS, opts.Rank) {
         card.cardType = ACE_CARD
 
         // Joker Cards
-    //} else if len(JOKER_CARDS) != sort.SearchStrings(JOKER_CARDS, opts.Rank) {
-    } else if isCard(JOKER_CARDS, opts.Rank) {
+    } else if card.isCard(JOKER_CARDS, opts.Rank) {
         card.cardType = JOKER_CARD
     }
 
     card.initialized = true
     return card, nil
-}
-
-func isCard( cards []string, rank string) bool {
-    return (len(cards) != sort.SearchStrings(cards, rank))
 }
 
 func NewCard(suit suits.Suit, rank string) (*Card, error) {
