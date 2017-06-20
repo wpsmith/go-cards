@@ -2,6 +2,7 @@ package cards
 
 import (
     "sort"
+    "math/rand"
     "github.com/wpsmith/go-cards/suits"
     "strings"
 )
@@ -38,14 +39,26 @@ func (C *Cards) Sort() {
 
 // Groups the deck by suit
 func (C *Cards) GroupBySuit() {
-    theSuits, _ := suits.GetSuits()
-    sort.Sort(theSuits)
+    theSuits, _ := suits.GetSortedSuits()
 
     var cards Cards
     for _, s := range theSuits {
         cards = append(cards, C.GetCardsBySuit(s.GetName())...)
     }
-    C = &cards
+    *C = cards
+}
+
+// Groups the deck by suit
+func (C *Cards) GroupBySortedSuit() {
+    theSuits, _ := suits.GetSortedSuits()
+
+    var cards, cardsBySuit Cards
+    for _, s := range theSuits {
+        cardsBySuit = C.GetCardsBySuit(s.GetName())
+        cardsBySuit.Sort()
+        cards = append(cards, cardsBySuit...)
+    }
+    *C = cards
 }
 
 // Gets the cards by a specific rank (e.g., all 2s)
@@ -63,8 +76,41 @@ func (C Cards) GetCardsBySuit(suitName string) Cards {
 }
 
 // Groups the deck by suit
-func (C Cards) GroupByRank() {
+func (C *Cards) GroupByRank() {
     C.Sort()
+}
+
+// Show hand with symbols
+func (C Cards) ToStringByType(stringType string) string {
+    var cardsSymbol []string
+    for _, card := range C {
+        cardsSymbol = append(cardsSymbol, card.GetSymbolBy(stringType))
+    }
+    return strings.Join(cardsSymbol, " ")
+}
+
+// Appends/Adds/Pushes a card to the bottom/end
+func (C *Cards) Append(c *Card) {
+    *C = append(*C, *c)
+}
+
+// Prepends/Adds/Unshifts a card to the top/beginning
+func (C *Cards) Prepend(c *Card) {
+    *C = append(Cards{*c}, *C...)
+}
+
+// Shuffle uses Knuth shuffle algorithm to randomize the deck in O(n) time
+// sourced from https://gist.github.com/quux00/8258425
+func (C *Cards) Shuffle() {
+    var deckCards Cards
+
+    deckCards = *C
+    N := len(deckCards)
+    for i := 0; i < N; i++ {
+        r := i + rand.Intn(N - i)
+        deckCards[r], deckCards[i] = deckCards[i], deckCards[r]
+    }
+    *C = deckCards
 }
 
 /** PRIVATE METHODS **/
@@ -90,25 +136,6 @@ func (C *Cards) remove(x int) (Cards) {
     return drawnCards
 }
 
-// Show hand with symbols
-func (C Cards) ToStringByType(stringType string) string {
-    var cardsSymbol []string
-    for _, card := range C {
-        cardsSymbol = append(cardsSymbol, card.GetSymbolBy(stringType))
-    }
-    return strings.Join(cardsSymbol, " ")
-}
-
-// Appends/Adds/Pushes a card to the bottom/end
-func (C *Cards) Append(c *Card) {
-    *C = append(*C, *c)
-}
-
-// Prepends/Adds/Unshifts a card to the top/beginning
-func (C *Cards) Prepend(c *Card) {
-    *C = append(Cards{*c}, *C...)
-}
-
 // Removes/Pops card from the bottom/end
 func (C *Cards) removeFromBottom(x int) (Cards) {
     var deckCards, drawnCards Cards
@@ -121,7 +148,6 @@ func (C *Cards) removeFromBottom(x int) (Cards) {
 
     return drawnCards
 }
-
 
 /** SORT INTERFACE METHODS **/
 // Length of Slice
