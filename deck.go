@@ -1,7 +1,6 @@
 package gocards
 
 import (
-    "math/rand"
     "strings"
     "github.com/wpsmith/go-cards/suits"
     "github.com/wpsmith/go-cards/cards"
@@ -108,11 +107,7 @@ func (d *Deck) GetCards() cards.Cards {
 // Shuffle uses Knuth shuffle algorithm to randomize the deck in O(n) time
 // sourced from https://gist.github.com/quux00/8258425
 func (d *Deck) Shuffle() {
-    N := len(d.cards)
-    for i := 0; i < N; i++ {
-        r := i + rand.Intn(N - i)
-        d.cards[r], d.cards[i] = d.cards[i], d.cards[r]
-    }
+    d.cards.Shuffle()
 }
 
 // Gets the cards
@@ -165,7 +160,7 @@ func NewMultiDeck(numOfDecks int, opts DeckOptions) (*Deck, error) {
         d *Deck
     )
 
-    d, e = newSingleDeck(opts)
+    d, e = NewSingleDeck(opts)
     if e != nil {
         fmt.Println("Got error")
     }
@@ -176,7 +171,6 @@ func NewMultiDeck(numOfDecks int, opts DeckOptions) (*Deck, error) {
 
     return d, nil
 }
-
 
 // Simple Deck creation
 func NewDeck(theCards cards.Cards) (*Deck, error) {
