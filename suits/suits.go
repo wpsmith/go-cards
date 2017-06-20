@@ -211,3 +211,10 @@ func GetSuits() (Suits, error) {
     }
     return suitsCol.Suits, nil
 }
+
+// Returns the Suits from the Suits Collection
+func GetSortedSuits() (Suits, error) {
+    sort.Sort(suitsCol.Suits)
+
+    return suitsCol.Suits, nil
+}
