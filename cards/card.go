@@ -201,10 +201,6 @@ func (c *Card) setGlyph(opts CardOptions) error {
         c.glyph = cGLYPH[c.getSymbolRankFirst()]
     }
 
-    //if c.glyph == "" {
-    //    return errorCardMissingRequiredProperties("Glyph")
-    //}
-
     return nil
 }
 
