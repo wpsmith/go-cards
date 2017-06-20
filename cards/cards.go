@@ -27,7 +27,7 @@ func (C *Cards) DrawX(x int) (Cards) {
 
 // Draw a single card from the bottom of the deck
 func (C *Cards) DrawXFromBottom(x int) (Cards) {
-    cards := C.removeFromBottom(1)
+    cards := C.removeFromBottom(x)
     return cards
 }
 
@@ -48,12 +48,14 @@ func (C *Cards) GroupBySuit() {
     C = &cards
 }
 
+// Gets the cards by a specific rank (e.g., all 2s)
 func (C Cards) GetCardsByRank(rank string) Cards {
     return C.pluckByCard(func(c Card) bool {
         return rank == c.GetRank()
     })
 }
 
+// Gets the cards by a specific suit name (e.g., suits.CLUBS)
 func (C Cards) GetCardsBySuit(suitName string) Cards {
     return C.pluckByCard(func(c Card) bool {
         return suitName == c.suit.GetName()
@@ -66,6 +68,7 @@ func (C Cards) GroupByRank() {
 }
 
 /** PRIVATE METHODS **/
+// Plucks a slice of cards by a matching function
 func (C Cards) pluckByCard(test func(Card) bool) (ret Cards) {
     for _, c := range C {
         if test(c) {
@@ -104,11 +107,6 @@ func (C *Cards) Append(c *Card) {
 // Prepends/Adds/Unshifts a card to the top/beginning
 func (C *Cards) Prepend(c *Card) {
     *C = append(Cards{*c}, *C...)
-
-    //cardSlice := *C
-    //cards := append(Cards{*c}, cardSlice...)
-    //C = &cards
-    ////C = append([]Card{*c}, C...)
 }
 
 // Removes/Pops card from the bottom/end
