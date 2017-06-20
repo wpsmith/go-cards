@@ -4,7 +4,6 @@ import (
     "testing"
     "github.com/wpsmith/go-cards/suits"
     "reflect"
-    "fmt"
 )
 
 type testNewDeck struct {
@@ -88,12 +87,12 @@ func (C Cards) getLastCard() (*Card) {
 func TestDeckremove(t *testing.T) {
     // Create the standard 52-card deck
     c := createCards()
-    //originalLastCard := c.getLastCard()
+    originalLastCard := c.getLastCard()
     lenOriginalCards := c.Len()
 
     // Remove the card
     c.remove(1)
-    //actualLastCard := c.getLastCard()
+    actualLastCard := c.getLastCard()
     lenCards := c.Len()
 
     // Compare lengths
@@ -102,20 +101,20 @@ func TestDeckremove(t *testing.T) {
     }
 
     // Compare last cards, not sure why this fails??
-    //if reflect.DeepEqual(originalLastCard, actualLastCard) {
-    //    t.Errorf("For card.remove(), expected\n%#v\nreceived\n%#v\n", originalLastCard, actualLastCard)
-    //}
+    if reflect.DeepEqual(originalLastCard, actualLastCard) {
+        t.Errorf("For card.remove(), expected\n%#v\nreceived\n%#v\n", originalLastCard, actualLastCard)
+    }
 }
 
 // Tests removeFromBottom method for Cards
 func TestDeckremoveFromBottom(t *testing.T) {
     // Create the standard 52-card deck
     c := createCards()
-    //originalLastCard := c.getLastCard()
+    originalLastCard := c.getLastCard()
     lenOriginalCards := c.Len()
 
     c.removeFromBottom(1)
-    //actualLastCard := c.getLastCard()
+    actualLastCard := c.getLastCard()
     lenCards := c.Len()
 
     // Compare lengths
@@ -124,9 +123,9 @@ func TestDeckremoveFromBottom(t *testing.T) {
     }
 
     // Compare last cards, not sure why this fails??
-    //if !reflect.DeepEqual(originalLastCard, actualLastCard) {
-    //    t.Errorf("For card.removeFromBottom(), expected\n%#v\nreceived\n%#v\n", originalLastCard, actualLastCard)
-    //}
+    if !reflect.DeepEqual(originalLastCard, actualLastCard) {
+        t.Errorf("For card.removeFromBottom(), expected\n%#v\nreceived\n%#v\n", originalLastCard, actualLastCard)
+    }
 }
 
 // Get first card
@@ -140,7 +139,7 @@ func TestDeckPrepend(t *testing.T) {
     // Create the standard 52-card deck
     c := createCards()
     lenOriginalCards := c.Len()
-    //originalFirstCard := c.getFirstCard()
+    originalFirstCard := c.getFirstCard()
 
     // Create Joker Fool Card
     suitsSlice, _ := suits.GetSuits()
@@ -149,7 +148,7 @@ func TestDeckPrepend(t *testing.T) {
 
     c.Prepend(card)
     lenCards := c.Len()
-    //actualFirstCard := c.getFirstCard()
+    actualFirstCard := c.getFirstCard()
 
     // Compare lengths
     if lenOriginalCards > lenCards {
@@ -157,9 +156,9 @@ func TestDeckPrepend(t *testing.T) {
     }
 
     // Compare last cards, not sure why this fails??
-    //if !reflect.DeepEqual(originalFirstCard, actualFirstCard) {
-    //    t.Errorf("For card.remove(), expected\n%#v\nreceived\n%#v\n", originalFirstCard, actualFirstCard)
-    //}
+    if !reflect.DeepEqual(originalFirstCard, actualFirstCard) {
+        t.Errorf("For card.remove(), expected\n%#v\nreceived\n%#v\n", originalFirstCard, actualFirstCard)
+    }
 }
 
 func TestCardGroupBySuit(t *testing.T) {
